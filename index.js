@@ -6,6 +6,7 @@ const mongoose = require('mongoose')
 const { buildSchema } = require('graphql')
 const { graphqlHTTP } = require("express-graphql")
 const UserModel = require('./models/Users')
+const EmployeeModel = require('./models/Employees')
 
 const app = express()
 const SERVER_PORT = 6130
@@ -31,10 +32,10 @@ const userSchema = buildSchema(
 )
 
 const userResolver = {
-    login: async (credentials)=>{
-        const {username, password} = credentials
+    login: async (credentials) => {
+        const { username, password } = credentials
         try {
-            let findUser = await UserModel.findOne({username: username})
+            let findUser = await UserModel.findOne({ username: username })
             if (findUser.length === 0) {
                 throw Error("Username does not exist.")
             } else if (findUser.password != password) {
@@ -42,12 +43,12 @@ const userResolver = {
             } else {
                 return username
             }
-        }catch(err) {
+        } catch (err) {
             return ('Login unsuccessful: ' + err.message)
         }
     },
-    signup: async(user) => {
-        const {username, email, password} = user
+    signup: async (user) => {
+        const { username, email, password } = user
         const newUser = UserModel({
             username,
             email,
@@ -96,30 +97,36 @@ const employeeSchema = buildSchema(
 )
 
 const employeeResolver = {
-    login: async (credentials)=>{
-        const {username, password} = credentials
+    getAll: async () => {
+        let employees = await EmployeeModel.find({});
+        return employees
+    },
+    searchById: async (_id) => {
+        let employee
         try {
-            let findUser = await UserModel.findOne({username: username})
-            if (findUser.length === 0) {
-                throw Error("Username does not exist.")
-            } else if (findUser.password != password) {
-                throw Error("Invalid password.")
+            if (employee = await EmployeeModel.findById(_id)) {
+                return employee
             } else {
-                return username
+                throw Error("Employee does not exist.")
             }
-        }catch(err) {
-            return ('Login unsuccessful: ' + err.message)
+        } catch (err) {
+            return("Could not find employee: " + err.message)
         }
     },
-    signup: async(user) => {
-        const {username, email, password} = user
-        const newUser = UserModel({
-            username,
-            email,
-            password
-        })
-        await newUser.save()
-        return newUser
+    searchByDesOrDep: async (option, query) => {
+        if(option != "designation" && option != "department") {
+            return('Error: option field must be either "designation" or "department"')
+        }
+        let employee
+        try {
+            if (employee = await EmployeeModel.find({[option]: query})) {
+                return employee
+            } else {
+                throw Error("Employee does not exist.")
+            }
+        } catch (err) {
+            return("Could not find employee: " + err.message)
+        }
     }
 }
 
