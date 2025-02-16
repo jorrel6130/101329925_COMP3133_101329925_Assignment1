@@ -14,11 +14,11 @@ const SERVER_PORT = 6130
 // http://localhost:6130/user
 const userSchema = buildSchema(
     `type Query{
-        login(username: String, password: String): String
+        login(username: String, password: String): User
     }
     
     type Mutation{
-        signup(username: String, email: String, password: String): String
+        signup(username: String, email: String, password: String): User
     }
 
     type User{
@@ -44,7 +44,7 @@ const userResolver = {
                 return username
             }
         } catch (err) {
-            return ('Login unsuccessful: ' + err.message)
+            return ({"errors": {"message": 'Login unsuccessful: ' + err.message}})
         }
     },
     signup: async (user) => {
@@ -58,7 +58,7 @@ const userResolver = {
             await newUser.save()
             return newUser
         } catch (err) {
-            return ('Sign Up Failed: ' + err.message)
+            return ({"errors": {"message": 'Sign Up Failed: ' + err.message}})
         }
     }
 }
@@ -75,13 +75,13 @@ app.use("/user", userHTTP)
 const employeeSchema = buildSchema(
     `type Query{
         getAll: [Employee]
-        searchById(_id: Int)
-        searchByDesOrDep(option: String, query: String)
+        searchById(_id: Int): Employee
+        searchByDesOrDep(option: String, query: String): Employee
     }
     
     type Mutation{
-        addEmp(first_name: String, last_name: String, email: String, gender: String, designation: String, salary: Float, date_of_joining: String, employee_photo: String): String
-        updEmp(_id: Int, first_name: String, last_name: String, email: String, gender: String, designation: String, salary: Float, date_of_joining: String, employee_photo: String): String
+        addEmp(first_name: String, last_name: String, email: String, gender: String, designation: String, salary: Float, date_of_joining: String, employee_photo: String): Employee
+        updEmp(_id: Int, first_name: String, last_name: String, email: String, gender: String, designation: String, salary: Float, date_of_joining: String, employee_photo: String): Employee
         delEmp(_id: Int): String
     }
 
@@ -114,7 +114,7 @@ const employeeResolver = {
                 throw Error("Employee does not exist.")
             }
         } catch (err) {
-            return ("Could not find employee: " + err.message)
+            return ({"errors": {"message": "Could not find employee: " + err.message}})
         }
     },
     searchByDesOrDep: async (input) => {
@@ -130,7 +130,7 @@ const employeeResolver = {
                 throw Error("Employee does not exist.")
             }
         } catch (err) {
-            return ("Could not find employee: " + err.message)
+            return ({"errors": {"message": "Could not find employee: " + err.message}})
         }
     },
     addEmp: async (employee) => {
@@ -151,7 +151,7 @@ const employeeResolver = {
             await newEmp.save()
             return newEmp
         } catch (err) {
-            return ("Employee could not be created: " + err.message)
+            return ({"errors": {"message": "Employee could not be created: " + err.message}})
         }
     },
     updEmp: async (update) => {
@@ -162,7 +162,7 @@ const employeeResolver = {
             employee = await EmployeeModel.findOneAndUpdate(_id, { updated_at: new Date })
             return employee
         } catch (err) {
-            return("Employee does not exist or cannot be updated." + err.message)
+            return({"errors": {"message": "Employee does not exist or cannot be updated." + err.message}})
         }
     },
     delEmp: async (_id) => {
@@ -170,7 +170,7 @@ const employeeResolver = {
             await EmployeeModel.findOneAndDelete(_id)
             return (`Employee (id: ${_id}) successfully deleted.`)
         } catch (err) {
-            return("Employee does not exist or cannot be deleted: " + err.message)
+            return({"errors": {"message": "Employee does not exist or cannot be deleted: " + err.message}})
         }
     }
 }
