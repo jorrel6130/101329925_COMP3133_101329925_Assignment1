@@ -29,6 +29,34 @@ const userSchema = buildSchema(
     `
 )
 
+const userResolver = {
+    login: async ({username}, {password})=>{
+        try {
+            let findUsername = await UserModel.find({username: username})
+            let findPassword = await UserModel.find({username: username, password: password})
+            if (findUsername.length === 0) {
+                throw Error("Username does not exist.")
+            } else if (findPassword.length === 0) {
+                throw Error("Invalid password.")
+            } else {
+                return username
+            }
+        }catch(err) {
+            return ('Login unsuccessful: ' + err.message)
+        }
+    },
+    signup: async(user) => {
+        const {username, email, password} = user
+        const newUser = UserModel({
+            username,
+            email,
+            password
+        })
+        await newUser.save()
+        return newUser
+    }
+}
+
 const connectDB = async () => {
     try {
         console.log(`Attempting to connect to DB`);
