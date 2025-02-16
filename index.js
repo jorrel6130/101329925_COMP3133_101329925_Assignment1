@@ -57,6 +57,14 @@ const userResolver = {
     }
 }
 
+const userHTTP = graphqlHTTP({
+    schema: userSchema,
+    rootValue: userResolver,
+    graphiql: true
+})
+
+app.use("/user", userHTTP)
+
 const connectDB = async () => {
     try {
         console.log(`Attempting to connect to DB`);
