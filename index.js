@@ -93,6 +93,7 @@ const employeeSchema = buildSchema(
         designation: String
         salary: Float
         date_of_joining: String
+        department: String
         employee_photo: String
         created_at: String
         updated_at: String
@@ -134,7 +135,7 @@ const employeeResolver = {
         }
     },
     addEmp: async (employee) => {
-        const { first_name, last_name, email, gender, designation, salary, date_of_joining, employee_photo } = employee
+        const { first_name, last_name, email, gender, designation, salary, date_of_joining, department, employee_photo } = employee
         const formatted_date = Date.parse(date_of_joining)
         let newEmp
         try {
@@ -146,6 +147,7 @@ const employeeResolver = {
                 designation,
                 salary,
                 date_of_joining: formatted_date,
+                department,
                 employee_photo
             })
             await newEmp.save()
@@ -155,22 +157,30 @@ const employeeResolver = {
         }
     },
     updEmp: async (update) => {
-        const _id = update._id
+        const _id = { _id: update._id }
         let employee;
         try {
-            employee = await EmployeeModel.findOneAndUpdate(_id, update)
-            employee = await EmployeeModel.findOneAndUpdate(_id, { updated_at: new Date })
-            return employee
+            if (employee = await EmployeeModel.findById(_id)) {
+                employee = await EmployeeModel.findOneAndUpdate(_id, update)
+                employee = await EmployeeModel.findOneAndUpdate(_id, { updated_at: new Date })
+                return employee
+            } else {
+                throw Error("Employee does not exist.")
+            }
         } catch (err) {
-            return(err)
+            return (err)
         }
     },
     delEmp: async (_id) => {
         try {
-            await EmployeeModel.findOneAndDelete(_id)
-            return (`Employee (id: ${_id}) successfully deleted.`)
+            if (employee = await EmployeeModel.findById(_id)) {
+                await EmployeeModel.findOneAndDelete(_id)
+                return (`Employee (id: ${_id}) successfully deleted.`)
+            } else {
+                throw Error("Employee does not exist.")
+            }
         } catch (err) {
-            return(err)
+            return ("Employee deletion failed: " + err.message)
         }
     }
 }

@@ -37,7 +37,7 @@ const employeeSchema = new mongoose.Schema({
         type: Number,
         required: true,
         validate(value) {
-            if (value < 1000) {
+            if (value < 1000.0) {
                 throw new Error("Salary must be $1000 or greater");
             }
         }
