@@ -1,0 +1,20 @@
+{
+  "name": "101329925_comp3133_101329925_assignment1",
+  "version": "1.0.0",
+  "description": "��#\u0000 \u00001\u00000\u00001\u00003\u00002\u00009\u00009\u00002\u00005\u0000_\u0000C\u0000O\u0000M\u0000P\u00003\u00001\u00003\u00003\u0000_\u00001\u00000\u00001\u00003\u00002\u00009\u00009\u00002\u00005\u0000_\u0000A\u0000s\u0000s\u0000i\u0000g\u0000n\u0000m\u0000e\u0000n\u0000t\u00001\u0000\r\u0000 \u0000",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon index.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.21.2",
+    "express-graphql": "^0.12.0",
+    "graphql": "^15.10.1",
+    "mongoose": "^8.10.1",
+    "nodemon": "^3.1.9"
+  }
+}
