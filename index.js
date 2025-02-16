@@ -77,7 +77,7 @@ const employeeSchema = buildSchema(
     `type Query{
         getAll: [Employee]
         searchById(_id: String): Employee
-        searchByDesOrDep(option: String, query: String): Employee
+        searchByDesOrDep(option: String, query: String): [Employee]
     }
     
     type Mutation{
@@ -127,7 +127,7 @@ const employeeResolver = {
             if (option != "designation" && option != "department") {
                 throw Error('option field must be either "designation" or "department"')
             }
-            if (employee = await EmployeeModel.findOne({[option]: query})) {
+            if (employee = await EmployeeModel.find({[option]: query})) {
                 return employee
             } else {
                 throw Error("Employee does not exist.")
