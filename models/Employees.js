@@ -1,3 +1,6 @@
+// Jorrel Tigbayan
+// 101329925
+
 const mongoose = require('mongoose')
 
 const employeeSchema = new mongoose.Schema({
@@ -16,6 +19,7 @@ const employeeSchema = new mongoose.Schema({
         required: true,
         unique: [true, "Emails must be unique"],
         trim: true,
+        lowercase: true
     },
     gender: {
         type: String,

@@ -1,3 +1,6 @@
+// Jorrel Tigbayan
+// 101329925
+
 const mongoose = require('mongoose')
 
 const userSchema = new mongoose.Schema({
@@ -11,6 +14,7 @@ const userSchema = new mongoose.Schema({
         required: true,
         unique: [true, "Emails must be unique"],
         trim: true,
+        lowercase: true
     },
     password: {
         type: String,

@@ -163,6 +163,11 @@ const employeeResolver = {
         const newDate = new Date
         let employee;
         try {
+            if (update.salary) {
+                if (update.salary < 1000) {
+                    throw Error("Salary cannot be under 1000")
+                }
+            }
             if (employee = await EmployeeModel.findById(_id)) {
                 employee = await EmployeeModel.findOneAndUpdate(_id, update)
                 employee = await EmployeeModel.findOneAndUpdate(_id, { updated_at: newDate.now })
