@@ -18,7 +18,7 @@ const userSchema = buildSchema(
     }
     
     type Mutation{
-        signup(username: String, email: String, password: String): User
+        signup(username: String, email: String, password: String): String
     }
 
     type User{
@@ -49,13 +49,17 @@ const userResolver = {
     },
     signup: async (user) => {
         const { username, email, password } = user
-        const newUser = UserModel({
-            username,
-            email,
-            password
-        })
-        await newUser.save()
-        return newUser
+        try {
+            const newUser = UserModel({
+                username,
+                email,
+                password
+            })
+            await newUser.save()
+            return newUser
+        } catch (err) {
+            return ('Sign Up Failed: ' + err.message)
+        }
     }
 }
 
@@ -76,7 +80,7 @@ const employeeSchema = buildSchema(
     }
     
     type Mutation{
-        addEmp(first_name: String, last_name: String, email: String, gender: String, designation: String, salary: Float, date_of_joining: String, employee_photo: String): Employee
+        addEmp(first_name: String, last_name: String, email: String, gender: String, designation: String, salary: Float, date_of_joining: String, employee_photo: String): String
         updEmp(_id: Int, first_name: String, last_name: String, email: String, gender: String, designation: String, salary: Float, date_of_joining: String, employee_photo: String): String
         delEmp(_id: Int): String
     }
@@ -110,22 +114,63 @@ const employeeResolver = {
                 throw Error("Employee does not exist.")
             }
         } catch (err) {
-            return("Could not find employee: " + err.message)
+            return ("Could not find employee: " + err.message)
         }
     },
-    searchByDesOrDep: async (option, query) => {
-        if(option != "designation" && option != "department") {
-            return('Error: option field must be either "designation" or "department"')
+    searchByDesOrDep: async (input) => {
+        const { option, query } = input
+        if (option != "designation" && option != "department") {
+            return ('Error: option field must be either "designation" or "department"')
         }
         let employee
         try {
-            if (employee = await EmployeeModel.find({[option]: query})) {
+            if (employee = await EmployeeModel.find({ [option]: query })) {
                 return employee
             } else {
                 throw Error("Employee does not exist.")
             }
         } catch (err) {
-            return("Could not find employee: " + err.message)
+            return ("Could not find employee: " + err.message)
+        }
+    },
+    addEmp: async (employee) => {
+        const { first_name, last_name, email, gender, designation, salary, date_of_joining, employee_photo } = employee
+        const formatted_date = Date.parse(date_of_joining)
+        let newEmp
+        try {
+            newEmp = EmployeeModel({
+                first_name,
+                last_name,
+                email,
+                gender,
+                designation,
+                salary,
+                date_of_joining: formatted_date,
+                employee_photo
+            })
+            await newEmp.save()
+            return newEmp
+        } catch (err) {
+            return ("Employee could not be created: " + err.message)
+        }
+    },
+    updEmp: async (update) => {
+        const _id = update._id
+        let employee;
+        try {
+            employee = await EmployeeModel.findOneAndUpdate(_id, update)
+            employee = await EmployeeModel.findOneAndUpdate(_id, { updated_at: new Date })
+            return employee
+        } catch (err) {
+            return("Employee does not exist or cannot be updated." + err.message)
+        }
+    },
+    delEmp: async (_id) => {
+        try {
+            await EmployeeModel.findOneAndDelete(_id)
+            return (`Employee (id: ${_id}) successfully deleted.`)
+        } catch (err) {
+            return("Employee does not exist or cannot be deleted: " + err.message)
         }
     }
 }
