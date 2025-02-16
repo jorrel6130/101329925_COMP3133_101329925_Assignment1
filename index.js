@@ -22,6 +22,7 @@ const userSchema = buildSchema(
     }
 
     type User{
+        _id: String
         username: String
         email: String
         password: String
@@ -86,6 +87,7 @@ const employeeSchema = buildSchema(
     }
 
     type Employee{
+        _id: String
         first_name: String
         last_name: String
         email: String
@@ -120,12 +122,12 @@ const employeeResolver = {
     },
     searchByDesOrDep: async (input) => {
         const { option, query } = input
-        if (option != "designation" && option != "department") {
-            return ('Error: option field must be either "designation" or "department"')
-        }
         let employee
         try {
-            if (employee = await EmployeeModel.find({ [option]: query })) {
+            if (option != "designation" && option != "department") {
+                throw Error('option field must be either "designation" or "department"')
+            }
+            if (employee = await EmployeeModel.findOne({[option]: query})) {
                 return employee
             } else {
                 throw Error("Employee does not exist.")
@@ -158,11 +160,12 @@ const employeeResolver = {
     },
     updEmp: async (update) => {
         const _id = { _id: update._id }
+        const newDate = new Date
         let employee;
         try {
             if (employee = await EmployeeModel.findById(_id)) {
                 employee = await EmployeeModel.findOneAndUpdate(_id, update)
-                employee = await EmployeeModel.findOneAndUpdate(_id, { updated_at: new Date })
+                employee = await EmployeeModel.findOneAndUpdate(_id, { updated_at: newDate.now })
                 return employee
             } else {
                 throw Error("Employee does not exist.")
@@ -175,7 +178,7 @@ const employeeResolver = {
         try {
             if (employee = await EmployeeModel.findById(_id)) {
                 await EmployeeModel.findOneAndDelete(_id)
-                return (`Employee (id: ${_id}) successfully deleted.`)
+                return (`Employee (id: ${_id._id}) successfully deleted.`)
             } else {
                 throw Error("Employee does not exist.")
             }
