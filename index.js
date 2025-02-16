@@ -35,16 +35,16 @@ const userResolver = {
     login: async (credentials) => {
         const { username, password } = credentials
         try {
-            let findUser = await UserModel.findOne({ username: username })
-            if (findUser.length === 0) {
+            let user = await UserModel.findOne({ username: username })
+            if (!user) {
                 throw Error("Username does not exist.")
-            } else if (findUser.password != password) {
+            } else if (user.password != password) {
                 throw Error("Invalid password.")
             } else {
-                return username
+                return user
             }
         } catch (err) {
-            return ({"errors": {"message": 'Login unsuccessful: ' + err.message}})
+            return (err)
         }
     },
     signup: async (user) => {
@@ -58,7 +58,7 @@ const userResolver = {
             await newUser.save()
             return newUser
         } catch (err) {
-            return ({"errors": {"message": 'Sign Up Failed: ' + err.message}})
+            return (err)
         }
     }
 }
@@ -75,14 +75,14 @@ app.use("/user", userHTTP)
 const employeeSchema = buildSchema(
     `type Query{
         getAll: [Employee]
-        searchById(_id: Int): Employee
+        searchById(_id: String): Employee
         searchByDesOrDep(option: String, query: String): Employee
     }
     
     type Mutation{
         addEmp(first_name: String, last_name: String, email: String, gender: String, designation: String, salary: Float, date_of_joining: String, employee_photo: String): Employee
-        updEmp(_id: Int, first_name: String, last_name: String, email: String, gender: String, designation: String, salary: Float, date_of_joining: String, employee_photo: String): Employee
-        delEmp(_id: Int): String
+        updEmp(_id: String, first_name: String, last_name: String, email: String, gender: String, designation: String, salary: Float, date_of_joining: String, employee_photo: String): Employee
+        delEmp(_id: String): String
     }
 
     type Employee{
@@ -114,7 +114,7 @@ const employeeResolver = {
                 throw Error("Employee does not exist.")
             }
         } catch (err) {
-            return ({"errors": {"message": "Could not find employee: " + err.message}})
+            return (err)
         }
     },
     searchByDesOrDep: async (input) => {
@@ -130,7 +130,7 @@ const employeeResolver = {
                 throw Error("Employee does not exist.")
             }
         } catch (err) {
-            return ({"errors": {"message": "Could not find employee: " + err.message}})
+            return (err)
         }
     },
     addEmp: async (employee) => {
@@ -151,7 +151,7 @@ const employeeResolver = {
             await newEmp.save()
             return newEmp
         } catch (err) {
-            return ({"errors": {"message": "Employee could not be created: " + err.message}})
+            return (err)
         }
     },
     updEmp: async (update) => {
@@ -162,7 +162,7 @@ const employeeResolver = {
             employee = await EmployeeModel.findOneAndUpdate(_id, { updated_at: new Date })
             return employee
         } catch (err) {
-            return({"errors": {"message": "Employee does not exist or cannot be updated." + err.message}})
+            return(err)
         }
     },
     delEmp: async (_id) => {
@@ -170,7 +170,7 @@ const employeeResolver = {
             await EmployeeModel.findOneAndDelete(_id)
             return (`Employee (id: ${_id}) successfully deleted.`)
         } catch (err) {
-            return({"errors": {"message": "Employee does not exist or cannot be deleted: " + err.message}})
+            return(err)
         }
     }
 }
