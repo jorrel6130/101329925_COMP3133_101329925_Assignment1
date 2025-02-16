@@ -30,16 +30,13 @@ const userSchema = buildSchema(
 )
 
 const userResolver = {
-    login: async ({username}, {password})=>{
+    login: async (credentials)=>{
+        const {username, password} = credentials
         try {
             let findUser = await UserModel.findOne({username: username})
             if (findUser.length === 0) {
                 throw Error("Username does not exist.")
             } else if (findUser.password != password) {
-                console.log(findUser)
-                console.log(findUser.password)
-                console.log(password)
-                console.log(username)
                 throw Error("Invalid password.")
             } else {
                 return username
