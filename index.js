@@ -11,8 +11,8 @@ const SERVER_PORT = 6130
 
 // code
 
-const connectDB = async() => {
-    try{
+const connectDB = async () => {
+    try {
         console.log(`Attempting to connect to DB`);
         const DB_NAME = ""
         const DB_USER_NAME = "jorrel6130"
@@ -23,14 +23,14 @@ const connectDB = async() => {
         mongoose.connect(DB_CONNECTION, {
             useNewUrlParser: true,
             useUnifiedTopology: true
-        }).then( () => {
+        }).then(() => {
             console.log(`MongoDB connected`)
-        }).catch( (err) => {
+        }).catch((err) => {
             console.log(`Error while connecting to MongoDB : ${JSON.stringify(err)}`)
         });
-    }catch(error){
+    } catch (error) {
         console.log(`Unable to connect to DB : ${error.message}`);
-        
+
     }
 }
 

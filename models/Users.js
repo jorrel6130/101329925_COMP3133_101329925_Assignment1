@@ -18,11 +18,11 @@ const userSchema = new mongoose.Schema({
         trim: true
     },
     created_at: {
-        type: Date, 
+        type: Date,
         default: Date.now
     },
     updated_at: {
-        type: Date, 
+        type: Date,
         default: Date.now
     }
 })
