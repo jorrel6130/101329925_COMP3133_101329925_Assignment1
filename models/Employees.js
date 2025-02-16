@@ -6,7 +6,7 @@ const employeeSchema = new mongoose.Schema({
         required: true,
         trim: true
     },
-    first_name: {
+    last_name: {
         type: String,
         required: true,
         trim: true
@@ -53,7 +53,6 @@ const employeeSchema = new mongoose.Schema({
     },
     employee_photo: {
         type: String,
-        required: true,
         default: '../employee_photos/profile.png'
     },
     created_at: {

@@ -69,17 +69,26 @@ app.use("/user", userHTTP)
 // http://localhost:6130/employee
 const employeeSchema = buildSchema(
     `type Query{
-        login(username: String, password: String): String
+        getAll: [Employee]
+        searchById(_id: Int)
+        searchByDesOrDep(option: String, query: String)
     }
     
     type Mutation{
-        signup(username: String, email: String, password: String): User
+        addEmp(first_name: String, last_name: String, email: String, gender: String, designation: String, salary: Float, date_of_joining: String, employee_photo: String): Employee
+        updEmp(_id: Int, first_name: String, last_name: String, email: String, gender: String, designation: String, salary: Float, date_of_joining: String, employee_photo: String): String
+        delEmp(_id: Int): String
     }
 
-    type User{
-        username: String
+    type Employee{
+        first_name: String
+        last_name: String
         email: String
-        password: String
+        gender: String
+        designation: String
+        salary: Float
+        date_of_joining: String
+        employee_photo: String
         created_at: String
         updated_at: String
     }
