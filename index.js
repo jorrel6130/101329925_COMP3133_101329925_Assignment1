@@ -5,11 +5,29 @@ const express = require('express')
 const mongoose = require('mongoose')
 const { buildSchema } = require('graphql')
 const { graphqlHTTP } = require("express-graphql")
+const UserModel = require('./model/Users')
 
 const app = express()
 const SERVER_PORT = 6130
 
-// code
+const userSchema = buildSchema(
+    `type Query{
+        login(username: String, password: String): String
+    }
+    
+    type Mutation{
+        signup(username: String, email: String, password: String): User
+    }
+
+    type User{
+        username: String
+        email: String
+        password: String
+        created_at: String
+        updated_at: String
+    }
+    `
+)
 
 const connectDB = async () => {
     try {
