@@ -23,11 +23,6 @@ const employeeSchema = new mongoose.Schema({
         trim: true,
         enum: ['Male', 'Female', 'Other', 'Prefer not to say']
     },
-    password: {
-        type: String,
-        required: true,
-        trim: true
-    },
     designation: {
         type: String,
         required: true,

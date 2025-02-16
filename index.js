@@ -80,8 +80,8 @@ const employeeSchema = buildSchema(
     }
     
     type Mutation{
-        addEmp(first_name: String, last_name: String, email: String, gender: String, designation: String, salary: Float, date_of_joining: String, employee_photo: String): Employee
-        updEmp(_id: String, first_name: String, last_name: String, email: String, gender: String, designation: String, salary: Float, date_of_joining: String, employee_photo: String): Employee
+        addEmp(first_name: String, last_name: String, email: String, gender: String, designation: String, salary: Float, date_of_joining: String, department: String, employee_photo: String): Employee
+        updEmp(_id: String, first_name: String, last_name: String, email: String, gender: String, designation: String, salary: Float, date_of_joining: String, department: String, employee_photo: String): Employee
         delEmp(_id: String): String
     }
 
