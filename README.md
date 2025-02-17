@@ -29,5 +29,5 @@
 ![DelEmp](https://github.com/user-attachments/assets/e2f4d691-322c-4ec1-b432-e80f3843f804)
 
 # MongoDB Collections
-![MongoDB1](https://github.com/user-attachments/assets/322751f3-119a-45d6-a77f-c5889eca8050)
-![MongoDB2](https://github.com/user-attachments/assets/7dabd75d-cfaa-44af-80f8-8e107459c0f4)
+![MongoDB1](https://github.com/user-attachments/assets/0e056cce-1350-4fe1-8e2e-ffe6701ebcf2)
+![MongoDB2](https://github.com/user-attachments/assets/f45a0d74-cdbe-4f00-aea9-85df9fdbafda)
