@@ -1,0 +1,20 @@
+query {
+  test1:searchById(_id:"67b2816ed1f0e23724f0f055") {
+    _id
+    first_name
+    last_name
+    email
+    gender
+    designation
+    salary
+    date_of_joining
+    department
+    employee_photo
+    created_at
+    updated_at
+  }
+  test2: searchById(_id:"67b2816ed1f0e23724f0f056") {
+    _id
+    email
+  }
+}

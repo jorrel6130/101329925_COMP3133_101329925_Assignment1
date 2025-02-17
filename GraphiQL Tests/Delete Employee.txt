@@ -1,0 +1,4 @@
+mutation{
+  test1: delEmp(_id: "67b2816ed1f0e23724f0f055")
+  test2: delEmp(_id: "67b2816ed1f0e23724f0f055")
+}

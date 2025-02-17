@@ -1,0 +1,27 @@
+mutation{
+  test1: signup(email: "jorrel6130@gmail.com", password: "test"){
+        username
+        email
+        password
+    }
+  test2: signup(username:"jorrel02", password: "test"){
+        username
+        email
+        password
+    }
+   test3: signup(username:"jorrel6130", email: "jorrel6130@gmail.com"){
+        username
+        email
+        password
+    }
+  test4: signup(username:"jorrel6130", email: "jorrel6130@gmail.com", password: "test"){
+        username
+        email
+        password
+    }
+  test5: signup(username:"jorrel02", email: "jorrel6130@gmail.com", password: "test2"){
+        username
+        email
+        password
+    }
+}

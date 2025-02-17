@@ -1,0 +1,43 @@
+mutation{
+  test1: addEmp(first_name: "Jorrel", 
+    last_name: "Tigbayan", 
+    email: "jorrel6130@gmail.com", 
+    gender: "Male", 
+    designation: "Student", 
+    salary: 1000, 
+    date_of_joining: "2024-10-10", 
+    department: "COMP3133"){
+    
+    _id
+    first_name
+		employee_photo
+    created_at
+    updated_at
+  }
+  test2: addEmp(first_name: "Jorrel", 
+    last_name: "Tigbayan", 
+    email: "jorrel6130@gmail.com", 
+    gender: "Male", 
+    designation: "Student", 
+    salary: 1000, 
+    date_of_joining: "2024-10-10", 
+    department: "COMP3133"){
+    
+    _id
+  }
+  test3: addEmp(first_name: "Jorrel", 
+    last_name: "Tigbayan", 
+    email: "jorrel6130@gmail.com", 
+    gender: "Male", 
+    designation: "Student", 
+    salary: 999.9, 
+    date_of_joining: "2024-10-10", 
+    department: "COMP3133"){
+    
+    _id
+  }
+  test4: addEmp(first_name: "Jorrel"){
+    
+    _id
+  }
+}

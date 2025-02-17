@@ -1,0 +1,42 @@
+query {
+  test1: login(username: "jorrel6130") {
+    _id
+    username
+    email
+    password
+    created_at
+    updated_at
+  }
+  test2: login(password: "test") {
+    _id
+    username
+    email
+    password
+    created_at
+    updated_at
+  }
+  test3: login(username: "notjorrel6130", password: "test") {
+    _id
+    username
+    email
+    password
+    created_at
+    updated_at
+  }
+  test4: login(username: "jorrel6130", password: "nottest") {
+    _id
+    username
+    email
+    password
+    created_at
+    updated_at
+  }
+  test5: login(username: "jorrel6130", password: "test") {
+    _id
+    username
+    email
+    password
+    created_at
+    updated_at
+  }
+}

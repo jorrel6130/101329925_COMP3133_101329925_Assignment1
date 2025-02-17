@@ -1,0 +1,27 @@
+mutation {
+  test1: updEmp(_id:"67b2816ed1f0e23724f0f055",
+    salary: 2000,
+    date_of_joining: "2023-10-12") {
+    _id
+    first_name
+    date_of_joining
+    salary
+    created_at
+    updated_at
+  }
+  test2: updEmp(_id:"67b2816ed1f0e23724f0f056",
+    salary: 3000) {
+    
+    _id
+  }
+  test3: updEmp(_id:"67b2816ed1f0e23724f0f055",
+    salary: 999.999) {
+    
+    salary
+  }
+  test4: updEmp(_id:"67b2816ed1f0e23724f0f055",
+    email: "richardg@gmail.com") {
+    
+    email
+  }
+}
