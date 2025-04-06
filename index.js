@@ -9,7 +9,7 @@ const UserModel = require('./models/Users')
 const EmployeeModel = require('./models/Employees')
 
 const app = express()
-const SERVER_PORT = 6130
+const SERVER_PORT = process.env.PORT || 6130;
 
 var db_status = ""
 
