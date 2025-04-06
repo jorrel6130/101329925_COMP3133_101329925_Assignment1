@@ -209,8 +209,8 @@ const connectDB = async () => {
     try {
         console.log(`Attempting to connect to DB`);
         const DB_NAME = "comp3133_101329925_assigment1"
-        const DB_USER_NAME = "jorrel6130"
-        const DB_PASSWORD = 'sfW89wE6Jk3touOf'
+        const DB_USER_NAME = "vercel-admin-user"
+        const DB_PASSWORD = '5gGBJuOTJEyUrsCi'
         const CLUSTER_ID = 'vd5kp'
         const DB_CONNECTION = `mongodb+srv://${DB_USER_NAME}:${DB_PASSWORD}@cluster0.${CLUSTER_ID}.mongodb.net/${DB_NAME}?retryWrites=true&w=majority&appName=Cluster0`
 
