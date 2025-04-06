@@ -235,6 +235,6 @@ const connectDB = async () => {
 
 app.listen(SERVER_PORT, () => {
     console.log('Server started')
-    connectDB()
+    //connectDB()
     console.log('http://localhost:' + SERVER_PORT)
 })
