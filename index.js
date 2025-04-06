@@ -7,10 +7,11 @@ const { buildSchema } = require('graphql')
 const { graphqlHTTP } = require("express-graphql")
 const UserModel = require('./models/Users')
 const EmployeeModel = require('./models/Employees')
-const Test = require('./models/Test')
 
 const app = express()
 const SERVER_PORT = 6130
+
+var db_status = ""
 
 app.route("/").get((req, res) => {
     res.send("Vercel API")
@@ -69,7 +70,7 @@ const userResolver = {
         }
     },
     test: () => {
-        return Test
+        return db_status
     }
 }
 
@@ -220,12 +221,14 @@ const connectDB = async () => {
             useUnifiedTopology: true
         }).then(() => {
             console.log(`MongoDB connected`)
+            db_status = (`MongoDB connected`)
         }).catch((err) => {
             console.log(`Error while connecting to MongoDB : ${JSON.stringify(err)}`)
+            db_status = (`Error while connecting to MongoDB : ${JSON.stringify(err)}`)
         });
     } catch (error) {
         console.log(`Unable to connect to DB : ${error.message}`);
-
+        db_status = (`Unable to connect to DB : ${error.message}`)
     }
 }
 
