@@ -3,6 +3,22 @@
 
 const mongoose = require('mongoose')
 
+try {
+        console.log(`Attempting to connect to DB`);
+        const DB_CONNECTION = `mongodb+srv://vercel-admin-user:4H16DPth9NEoOlnZ@cluster0.vd5kp.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`
+
+        mongoose.connect(DB_CONNECTION, {
+            useNewUrlParser: true,
+            useUnifiedTopology: true
+        }).then(() => {
+            console.log(`MongoDB connected`)
+        }).catch((err) => {
+            console.log(`Error while connecting to MongoDB : ${JSON.stringify(err)}`)
+        });
+    } catch (error) {
+        console.log(`Unable to connect to DB : ${error.message}`);
+    }
+
 const employeeSchema = new mongoose.Schema({
     first_name: {
         type: String,
