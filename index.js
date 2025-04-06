@@ -7,6 +7,7 @@ const { buildSchema } = require('graphql')
 const { graphqlHTTP } = require("express-graphql")
 const UserModel = require('./models/Users')
 const EmployeeModel = require('./models/Employees')
+const Test = require('./models/Test')
 
 const app = express()
 const SERVER_PORT = 6130
@@ -68,7 +69,7 @@ const userResolver = {
         }
     },
     test: () => {
-        return "Functional"
+        return Test
     }
 }
 
