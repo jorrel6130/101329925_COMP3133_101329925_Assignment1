@@ -19,6 +19,7 @@ app.route("/").get((req, res) => {
 const userSchema = buildSchema(
     `type Query{
         login(username: String, password: String): User
+        test: String
     }
     
     type Mutation{
@@ -65,6 +66,9 @@ const userResolver = {
         } catch (err) {
             return (err)
         }
+    },
+    test: () => {
+        return "Functional"
     }
 }
 
