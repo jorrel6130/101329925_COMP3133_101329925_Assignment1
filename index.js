@@ -11,6 +11,13 @@ const EmployeeModel = require('./models/Employees')
 const app = express()
 const SERVER_PORT = 6130
 
+app.use(express.json())
+app.use(express.urlencoded)
+
+app.route("/").get((req, res) => {
+    res.send("Vercel API")
+})
+
 // http://localhost:6130/user
 const userSchema = buildSchema(
     `type Query{
