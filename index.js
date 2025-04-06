@@ -9,7 +9,7 @@ const UserModel = require('./models/Users')
 const EmployeeModel = require('./models/Employees')
 
 const app = express()
-const SERVER_PORT = process.env.PORT || 6130;
+const SERVER_PORT = process.env.PORT || 3000;
 
 var db_status = ""
 
@@ -236,5 +236,5 @@ const connectDB = async () => {
 app.listen(SERVER_PORT, () => {
     console.log('Server started')
     connectDB()
-    console.log('http://localhost:6130')
+    console.log('http://localhost:' + SERVER_PORT)
 })
