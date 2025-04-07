@@ -68,7 +68,7 @@ const employeeSchema = new mongoose.Schema({
     },
     employee_photo: {
         type: String,
-        default: '../employee_photos/profile.png'
+        default: 'https://upload.wikimedia.org/wikipedia/commons/a/ac/Default_pfp.jpg'
     },
     created_at: {
         type: Date,
