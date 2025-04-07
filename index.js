@@ -9,23 +9,27 @@ const UserModel = require('./models/Users')
 const EmployeeModel = require('./models/Employees')
 
 const app = express()
-const SERVER_PORT = process.env.PORT || 3000;
-
-var db_status = ""
+const SERVER_PORT = process.env.PORT || 6130;
 
 app.route("/").get((req, res) => {
     res.send("Vercel API")
 })
 
-// http://localhost:6130/user
-const userSchema = buildSchema(
+// http://localhost:6130/gql
+const gqlSchema = buildSchema(
     `type Query{
         login(username: String, password: String): User
         test: String
+        getAll: [Employee]
+        searchById(_id: String): Employee
+        searchByDesOrDep(option: String, query: String): [Employee]
     }
     
     type Mutation{
         signup(username: String, email: String, password: String): User
+        addEmp(first_name: String, last_name: String, email: String, gender: String, designation: String, salary: Float, date_of_joining: String, department: String, employee_photo: String): Employee
+        updEmp(_id: String, first_name: String, last_name: String, email: String, gender: String, designation: String, salary: Float, date_of_joining: String, department: String, employee_photo: String): Employee
+        delEmp(_id: String): String
     }
 
     type User{
@@ -36,10 +40,25 @@ const userSchema = buildSchema(
         created_at: String
         updated_at: String
     }
+
+    type Employee{
+        _id: String
+        first_name: String
+        last_name: String
+        email: String
+        gender: String
+        designation: String
+        salary: Float
+        date_of_joining: String
+        department: String
+        employee_photo: String
+        created_at: String
+        updated_at: String
+    }
     `
 )
 
-const userResolver = {
+const gqlResolver = {
     login: async (credentials) => {
         const { username, password } = credentials
         try {
@@ -70,50 +89,8 @@ const userResolver = {
         }
     },
     test: () => {
-        return db_status
-    }
-}
-
-const userHTTP = graphqlHTTP({
-    schema: userSchema,
-    rootValue: userResolver,
-    graphiql: true
-})
-
-app.use("/user", userHTTP)
-
-// http://localhost:6130/employee
-const employeeSchema = buildSchema(
-    `type Query{
-        getAll: [Employee]
-        searchById(_id: String): Employee
-        searchByDesOrDep(option: String, query: String): [Employee]
-    }
-    
-    type Mutation{
-        addEmp(first_name: String, last_name: String, email: String, gender: String, designation: String, salary: Float, date_of_joining: String, department: String, employee_photo: String): Employee
-        updEmp(_id: String, first_name: String, last_name: String, email: String, gender: String, designation: String, salary: Float, date_of_joining: String, department: String, employee_photo: String): Employee
-        delEmp(_id: String): String
-    }
-
-    type Employee{
-        _id: String
-        first_name: String
-        last_name: String
-        email: String
-        gender: String
-        designation: String
-        salary: Float
-        date_of_joining: String
-        department: String
-        employee_photo: String
-        created_at: String
-        updated_at: String
-    }
-    `
-)
-
-const employeeResolver = {
+        return "Functional"
+    },
     getAll: async () => {
         let employees = await EmployeeModel.find({});
         return employees
@@ -203,38 +180,19 @@ const employeeResolver = {
     }
 }
 
-const employeeHTTP = graphqlHTTP({
-    schema: employeeSchema,
-    rootValue: employeeResolver,
+const gqlHTTP = graphqlHTTP({
+    schema: gqlSchema,
+    rootValue: gqlResolver,
     graphiql: true
 })
 
-app.use("/employee", employeeHTTP)
+app.use("/graphql", gqlHTTP)
 
-const connectDB = async () => {
-    try {
-        console.log(`Attempting to connect to DB`);
-        db_status = (`Attempting to connect to DB`)
-        const DB_CONNECTION = `mongodb+srv://vercel-admin-user:4H16DPth9NEoOlnZ@cluster0.vd5kp.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`
-
-        mongoose.connect(DB_CONNECTION, {
-            useNewUrlParser: true,
-            useUnifiedTopology: true
-        }).then(() => {
-            console.log(`MongoDB connected`)
-            db_status = (`MongoDB connected`)
-        }).catch((err) => {
-            console.log(`Error while connecting to MongoDB : ${JSON.stringify(err)}`)
-            db_status = (`Error while connecting to MongoDB : ${JSON.stringify(err)}`)
-        });
-    } catch (error) {
-        console.log(`Unable to connect to DB : ${error.message}`);
-        db_status = (`Unable to connect to DB : ${error.message}`)
-    }
+const employeeResolver = {
+    
 }
 
 app.listen(SERVER_PORT, () => {
     console.log('Server started')
-    //connectDB()
     console.log('http://localhost:' + SERVER_PORT)
 })
