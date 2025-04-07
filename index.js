@@ -117,7 +117,7 @@ const gqlResolver = {
             if (option != "designation" && option != "department") {
                 throw Error('option field must be either "designation" or "department"')
             }
-            if (employee = await EmployeeModel.find({[option]: query})) {
+            if (employee = await EmployeeModel.find({[option]: { '$regex': query, $options: 'i' }})) {
                 return employee
             } else {
                 throw Error("Employee does not exist.")
