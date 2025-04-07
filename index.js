@@ -150,7 +150,8 @@ const gqlResolver = {
     },
     updEmp: async (update) => {
         const _id = { _id: update._id }
-        update.updated_at = Date.now
+        const newDate = new Date
+        update.updated_at = newDate.now
         let employee;
         try {
             if (update.salary) {
