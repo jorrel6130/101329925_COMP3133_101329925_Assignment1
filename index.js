@@ -7,6 +7,7 @@ const { buildSchema } = require('graphql')
 const { graphqlHTTP } = require("express-graphql")
 const UserModel = require('./models/Users')
 const EmployeeModel = require('./models/Employees')
+var cors = require('cors');
 
 const app = express()
 const SERVER_PORT = process.env.PORT || 6130;
@@ -14,6 +15,8 @@ const SERVER_PORT = process.env.PORT || 6130;
 app.route("/").get((req, res) => {
     res.send("Vercel API")
 })
+
+app.use(cors());
 
 // http://localhost:6130/gql
 const gqlSchema = buildSchema(
