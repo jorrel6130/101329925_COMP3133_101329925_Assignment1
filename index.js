@@ -150,7 +150,7 @@ const gqlResolver = {
     },
     updEmp: async (update) => {
         const _id = { _id: update._id }
-        const newDate = new Date
+        update.updated_at = Date.now
         let employee;
         try {
             if (update.salary) {
@@ -160,7 +160,6 @@ const gqlResolver = {
             }
             if (employee = await EmployeeModel.findById(_id)) {
                 employee = await EmployeeModel.findOneAndUpdate(_id, update)
-                employee = await EmployeeModel.findOneAndUpdate(_id, { updated_at: newDate.now })
                 return employee
             } else {
                 throw Error("Employee does not exist.")
