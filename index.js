@@ -29,8 +29,8 @@ const gqlSchema = buildSchema(
     }
     
     type Mutation{
-        signup(_id: String, username: String, email: String, password: String): User
-        addEmp(_id: String, first_name: String, last_name: String, email: String, gender: String, designation: String, salary: Float, date_of_joining: String, department: String, employee_photo: String): Employee
+        signup(username: String, email: String, password: String): User
+        addEmp(first_name: String, last_name: String, email: String, gender: String, designation: String, salary: Float, date_of_joining: String, department: String, employee_photo: String): Employee
         updEmp(_id: String, first_name: String, last_name: String, email: String, gender: String, designation: String, salary: Float, date_of_joining: String, department: String, employee_photo: String): Employee
         delEmp(_id: String): String
     }
@@ -78,10 +78,9 @@ const gqlResolver = {
         }
     },
     signup: async (user) => {
-        const { _id, username, email, password } = user
+        const { username, email, password } = user
         try {
             const newUser = UserModel({
-                _id,
                 username,
                 email,
                 password
@@ -128,12 +127,11 @@ const gqlResolver = {
         }
     },
     addEmp: async (employee) => {
-        const { _id, first_name, last_name, email, gender, designation, salary, date_of_joining, department, employee_photo } = employee
+        const { first_name, last_name, email, gender, designation, salary, date_of_joining, department, employee_photo } = employee
         const formatted_date = Date.parse(date_of_joining)
         let newEmp
         try {
             newEmp = EmployeeModel({
-                _id,
                 first_name,
                 last_name,
                 email,

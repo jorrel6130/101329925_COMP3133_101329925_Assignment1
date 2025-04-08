@@ -20,7 +20,6 @@ try {
     }
 
 const employeeSchema = new mongoose.Schema({
-    _id: {type: mongoose.Schema.Types.ObjectId, default: new mongoose.Types.ObjectId},
     first_name: {
         type: String,
         required: true,
